@@ -14,18 +14,18 @@ public class World {
 		random = new Random();
 	}
 	
-	public static synchronized void setInteger() {
+	public synchronized void setInteger() {
 		int i = random.nextInt();
 		intArray.add(i);
 		System.out.println("Element dodany do tablicy przez watek " + Thread.currentThread().getName()  +   ": "  + i);
 	}
 	
-	public static synchronized void getInteger() {
+	public synchronized void getInteger() {
 		if (intArray.isEmpty()) System.out.println("Tablica jest pusta.");
 		else System.out.println("Zawartosc tablicy: " + intArray);
 	}
 	
-	public static synchronized void cleanArray() {		
+	public synchronized void cleanArray() {		
 		if (!intArray.isEmpty()) {
 			intArray.clear();
 			System.out.println("Tablica wyczyszczona.");
