@@ -1,21 +1,28 @@
 package edu.kk.pwir.lab2;
 
-import java.util.concurrent.BlockingQueue;
+import java.util.Random;
 
-public class EntranceGate {
+public class EntranceGate implements Runnable {
 
-	private BlockingQueue<Visitor> queue;
+	private ExhibitionHall museum;
+	Random random;
 
-	EntranceGate(BlockingQueue<Visitor> queue) {
-		super();
-		this.queue = queue;
+	public EntranceGate(ExhibitionHall museum) {
+		this.museum = museum;
+		random = new Random();
 	}
 
-	public void enter(Visitor visitor) throws InterruptedException {
-		synchronized (queue) {
-			this.queue.put(visitor);
-			System.out.println("Entering -> " + visitor.getName() + ". Occupied seats -> " + this.queue.size());
-			Thread.sleep(ExhibitionHall.DELAY_ON_ENTER);
+	public void run() {
+		try {
+			while(museum.isVisitorsWaiting()) {
+				Thread.sleep(random.nextInt(200));
+				museum.visitorEntering();
+			
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
+
 }
