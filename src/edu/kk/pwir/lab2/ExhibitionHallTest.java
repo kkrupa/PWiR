@@ -10,7 +10,7 @@ public class ExhibitionHallTest {
 		}
 
 		int iloscMiejsc = Integer.parseInt(args[0]);
-		int iloscGosci = Integer.parseInt(args[0]);
+		int iloscGosci = Integer.parseInt(args[1]);
 		ExhibitionHall museum = new ExhibitionHall(iloscMiejsc, iloscGosci);
 		Thread entrance = new Thread(new EntranceGate(museum));
 		Thread entrance2 = new Thread(new EntranceGate(museum));

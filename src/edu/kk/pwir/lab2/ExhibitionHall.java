@@ -7,8 +7,8 @@ public class ExhibitionHall {
 	private int iloscGosciInside;
 
 	public ExhibitionHall(int miejsca, int goscie) {
-		iloscGosci = goscie;
 		liczbaWolnychMiejsc = miejsca;
+		iloscGosci = goscie;
 		iloscGosciInside = 0;
 	}
 	
@@ -46,11 +46,5 @@ public class ExhibitionHall {
 					+ iloscGosci);
 		}
 	}
-
-//	public void wypiszDane() {
-//		System.out.println("GoscieInside: " + getVisitorsInside()
-//				+ " ; Miejsca wolne: " + getSeats() + " ; Pozostali: "
-//				+ getVisitors());
-//	}
 
 }
