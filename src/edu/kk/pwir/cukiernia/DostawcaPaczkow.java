@@ -15,10 +15,10 @@ public class DostawcaPaczkow implements Runnable {
 	@Override
 	public void run() {
 		try {
-			Thread.sleep(10000);
-			ilosc = random.nextInt(20);
+			ilosc = random.nextInt(10) + 5;
 			cukiernia.dostawaPaczkow(ilosc);
 			System.out.println("Dostarczono " + ilosc + " paczkow.");
+			Thread.sleep(10000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
