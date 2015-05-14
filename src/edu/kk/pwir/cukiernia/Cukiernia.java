@@ -9,9 +9,9 @@ public class Cukiernia {
 	private BlockingQueue<Kupujacy> okienko2;
 	private int paczki;
 
-	public Cukiernia() {
-		okienko1 = new LinkedBlockingQueue<Kupujacy>();
-		okienko2 = new LinkedBlockingQueue<Kupujacy>();
+	public Cukiernia(int dlugoscKolejek) {
+		okienko1 = new LinkedBlockingQueue<Kupujacy>(dlugoscKolejek);
+		okienko2 = new LinkedBlockingQueue<Kupujacy>(dlugoscKolejek);
 		paczki = 0;
 	}
 
@@ -46,7 +46,7 @@ public class Cukiernia {
 			return false;
 	}
 
-	public synchronized void usunZKolejki() {
+/*	public synchronized void usunZKolejki() {
 		if (!okienko1.isEmpty() && paczki > 0) {
 			if (okienko1.peek().isAlive()) {
 				okienko1.peek().zjedzPaczka();
@@ -60,7 +60,24 @@ public class Cukiernia {
 						+ " opuscil kolejke 1 na noszach.");
 				okienko1.poll();
 			}
-		}
+		}*/
+		
+		public synchronized void usunZKolejki() {
+			// TODO: wstawic metode .take();
+			if (paczki > 0) {
+				if (okienko1.peek().isAlive()) {
+					okienko1.peek().zjedzPaczka();
+					paczki--;
+					System.out.println(okienko1.peek().getNazwa()
+							+ " opuscil kolejke 1.");
+					okienko1.poll();
+					System.out.println();
+				} else {
+					System.out.println(okienko1.peek().getNazwa()
+							+ " opuscil kolejke 1 na noszach.");
+					okienko1.poll();
+				}
+			}
 
 		if (!okienko2.isEmpty() && paczki > 0) {
 			if (okienko2.peek().isAlive()) {

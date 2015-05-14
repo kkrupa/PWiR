@@ -5,5 +5,5 @@ public abstract class Konsument {
 		NAJEDZONY, W_KOLEJCE, NIE_ZYJE
 	};
 
-	public stanNajedzenia stan;
+	public volatile stanNajedzenia stan;
 }

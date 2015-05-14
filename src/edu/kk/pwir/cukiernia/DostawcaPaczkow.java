@@ -18,7 +18,7 @@ public class DostawcaPaczkow implements Runnable {
 			ilosc = random.nextInt(10) + 5;
 			cukiernia.dostawaPaczkow(ilosc);
 			System.out.println("Dostarczono " + ilosc + " paczkow.");
-			Thread.sleep(10000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

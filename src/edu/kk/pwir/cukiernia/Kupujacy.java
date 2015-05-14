@@ -6,34 +6,28 @@ import java.util.concurrent.TimeUnit;
 public class Kupujacy extends Konsument implements Runnable {
 
 	// private int czasZakupu; // chyba juz niepotrzebne
-	private long czasBezJedzenia; // czas jaki kupujacy wytrzyma bez zjedzenia
-									// nastepnego paczka
+	private final long czasBezJedzenia; // czas jaki kupujacy wytrzyma bez
+										// zjedzenia
+	// nastepnego paczka
 	Random random = new Random();
 	private long startTime; // moment w jakim kupujacy zjadl paczka
 	private long timeLimit; // moment, do ktorego kupujacy wytrzyma bez paczka
-	private long czasJedzenia; // czas spedzony na zjadaniu paczka
-	private Cukiernia cukiernia;
-	private String nazwa;
+	private final long czasJedzenia; // czas spedzony na zjadaniu paczka
+	private final Cukiernia cukiernia;
+	private final String nazwa;
 	private static int numer = 0;
 
-	public Kupujacy(int czasJedzenia, int czasBezJedzenia, Cukiernia cukiernia) {
-		// this.czasZakupu = random.nextInt((int) (0.4 * czasZakupu)) + (int)
-		// 0.8
-		// * czasZakupu;
-		this.czasBezJedzenia = random.nextInt((int) (0.4 * czasBezJedzenia))
-				+ (int) 0.8 * czasBezJedzenia;
+	public Kupujacy(long czasJedzenia, long czasBezJedzenia, Cukiernia cukiernia) {
+		this.czasBezJedzenia = ((int) (0.8 * czasBezJedzenia))
+				+ random.nextInt((int) (0.4 * czasBezJedzenia));
 		stan = stanNajedzenia.NAJEDZONY;
 		startTime = System.currentTimeMillis();
 		timeLimit = startTime + (this.czasBezJedzenia * 1000);
 		this.cukiernia = cukiernia;
 		this.czasJedzenia = czasJedzenia;
 		nazwa = "Paczkojad " + ++numer;
-	}
-
-	public void resetTime() {
-		startTime = System.currentTimeMillis();
-		timeLimit = startTime + (this.czasBezJedzenia * 1000);
-
+		System.out.println("Dopuszczalna dlugosc zycia " + getNazwa()
+				+ " wynosi: " + this.czasBezJedzenia);
 	}
 
 	private long getPozostalyCzas() {
@@ -65,9 +59,10 @@ public class Kupujacy extends Konsument implements Runnable {
 					+ " bedzie jadl paczka. Stan najedzenia: "
 					+ getStanNajedzenia());
 			Thread.sleep(getCzasJedzenia());
-			resetTime();
-			System.out.println(getNazwa() + " zjadl paczka.");
+			startTime = System.currentTimeMillis();
+			timeLimit = startTime + (this.czasBezJedzenia * 1000);
 			this.stan = stanNajedzenia.NAJEDZONY;
+			System.out.println(getNazwa() + " zjadl paczka.");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -78,16 +73,12 @@ public class Kupujacy extends Konsument implements Runnable {
 		System.out.println(getNazwa() + " pojawil sie na horyzoncie");
 		while (timeLimit >= startTime) {
 
-			if (getPozostalyCzas() > 0.6 * (czasBezJedzenia*1000)) {
-				this.stan = stanNajedzenia.NAJEDZONY;
-			}
-
-			if (getPozostalyCzas() <= 0.6 * (czasBezJedzenia*1000)) {
-				this.stan = stanNajedzenia.W_KOLEJCE;
-				if(!cukiernia.checkIfInQueue(this)) cukiernia.dodajDoKolejki(this);
-			}
-			
 			try {
+				if (getPozostalyCzas() <= 0.6 * (czasBezJedzenia * 1000)) {
+					this.stan = stanNajedzenia.W_KOLEJCE;
+					if (!(cukiernia.checkIfInQueue(this)))
+						cukiernia.dodajDoKolejki(this);
+				}
 				TimeUnit.SECONDS.sleep(2);
 				startTime = System.currentTimeMillis();
 			} catch (InterruptedException e) {
