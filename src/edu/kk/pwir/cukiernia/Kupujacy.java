@@ -30,7 +30,7 @@ public class Kupujacy extends Konsument implements Runnable {
 				+ " wynosi: " + this.czasBezJedzenia);
 	}
 
-	private long getPozostalyCzas() {
+	private synchronized long getPozostalyCzas() {
 		return (timeLimit - startTime);
 	}
 
@@ -86,6 +86,6 @@ public class Kupujacy extends Konsument implements Runnable {
 			}
 		}
 		this.stan = stanNajedzenia.NIE_ZYJE;
-		System.out.println(getNazwa() + " zmarł z głodu.");
+		System.err.println(getNazwa() + " zmarł z głodu.");
 	}
 }

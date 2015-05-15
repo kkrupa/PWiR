@@ -5,8 +5,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class Cukiernia {
 
-	private BlockingQueue<Kupujacy> okienko1;
-	private BlockingQueue<Kupujacy> okienko2;
+	private volatile BlockingQueue<Kupujacy> okienko1;
+	private volatile BlockingQueue<Kupujacy> okienko2;
 	private int paczki;
 
 	public Cukiernia(int dlugoscKolejek) {
@@ -46,25 +46,8 @@ public class Cukiernia {
 			return false;
 	}
 
-/*	public synchronized void usunZKolejki() {
-		if (!okienko1.isEmpty() && paczki > 0) {
-			if (okienko1.peek().isAlive()) {
-				okienko1.peek().zjedzPaczka();
-				paczki--;
-				System.out.println(okienko1.peek().getNazwa()
-						+ " opuscil kolejke 1.");
-				okienko1.poll();
-				System.out.println();
-			} else {
-				System.out.println(okienko1.peek().getNazwa()
-						+ " opuscil kolejke 1 na noszach.");
-				okienko1.poll();
-			}
-		}*/
-		
 		public synchronized void usunZKolejki() {
-			// TODO: wstawic metode .take();
-			if (paczki > 0) {
+			if (!okienko1.isEmpty() && paczki > 0) {
 				if (okienko1.peek().isAlive()) {
 					okienko1.peek().zjedzPaczka();
 					paczki--;
@@ -73,7 +56,7 @@ public class Cukiernia {
 					okienko1.poll();
 					System.out.println();
 				} else {
-					System.out.println(okienko1.peek().getNazwa()
+					System.err.println(okienko1.peek().getNazwa()
 							+ " opuscil kolejke 1 na noszach.");
 					okienko1.poll();
 				}
@@ -88,13 +71,13 @@ public class Cukiernia {
 				okienko2.poll();
 				System.out.println();
 			} else {
-				System.out.println(okienko2.peek().getNazwa()
+				System.err.println(okienko2.peek().getNazwa()
 						+ " opuscil kolejke 2 na noszach.");
 				okienko2.poll();
 			}
 		}
 		
-		if(paczki<=0) System.out.println("Brak paczkow.");
+		if(paczki<=0) System.err.println("Brak paczkow.");
 	}
 
 }
