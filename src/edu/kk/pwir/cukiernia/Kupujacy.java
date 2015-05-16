@@ -5,10 +5,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Kupujacy extends Konsument implements Runnable {
 
-	// private int czasZakupu; // chyba juz niepotrzebne
 	private final long czasBezJedzenia; // czas jaki kupujacy wytrzyma bez
-										// zjedzenia
-	// nastepnego paczka
+										// zjedzenia nastepnego paczka
 	Random random = new Random();
 	private long startTime; // moment w jakim kupujacy zjadl paczka
 	private long timeLimit; // moment, do ktorego kupujacy wytrzyma bez paczka
