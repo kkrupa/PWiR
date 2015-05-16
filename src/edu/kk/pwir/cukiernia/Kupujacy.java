@@ -74,10 +74,10 @@ public class Kupujacy extends Konsument implements Runnable {
 		while (timeLimit >= startTime) {
 
 			try {
-				if (getPozostalyCzas() <= 0.6 * (czasBezJedzenia * 1000)) {
+				if ((getPozostalyCzas() <= (0.6 * (czasBezJedzenia * 1000)))
+						&& this.stan != stanNajedzenia.W_KOLEJCE) {
 					this.stan = stanNajedzenia.W_KOLEJCE;
-					if (!(cukiernia.checkIfInQueue(this)))
-						cukiernia.dodajDoKolejki(this);
+					cukiernia.dodajDoKolejki(this);
 				}
 				TimeUnit.SECONDS.sleep(2);
 				startTime = System.currentTimeMillis();

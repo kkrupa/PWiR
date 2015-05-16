@@ -54,7 +54,6 @@ public class Cukiernia {
 					System.out.println(okienko1.peek().getNazwa()
 							+ " opuscil kolejke 1.");
 					okienko1.poll();
-					System.out.println();
 				} else {
 					System.err.println(okienko1.peek().getNazwa()
 							+ " opuscil kolejke 1 na noszach.");
